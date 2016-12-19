@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1">
+<title>{{title}}{{#if pkg.version}} {{pkg.version}}{{/if}}{{#if description}} &#8212; {{description}}{{/if}}</title>
+{{#if description}}
+<meta name="description" content="{{description}}">
+{{/if}}
+<link rel="stylesheet" href="resources/bootstrap.min.css">
+<link rel="stylesheet" href="resources/github.min.css">
+<style>
+
+.wrap {
+    padding: 2rem 1rem;
+}
+
+.method {
+    margin: 0 0 4rem 0;
+}
+
+.method .method-name {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.method .method-name + .scope-private {
+    color: #AAAAAA;
+}
+
+.method section {
+    margin: 2rem 0;
+}
+
+.method h3 {
+    margin: 0 0 1rem 0;
+}
+
+.method .table,
+.method .table p,
+.method .table ol,
+.method .table ul {
+    margin: 0;
+}
+
+.bs-footer {
+    margin: 3rem auto;
+    color: #777;
+    text-align: center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="method scope-{{#if isPrivate}}private{{else}}public{{/if}}">
+
+        <h2 id="{{uid}}">
+            <span class="method-name" title="{{name}}({{params}})">{{name}}({{params}})</span>
+            {{#if isPrivate}}
+            <small class="scope-private">private {{type}}</small>
+            {{/if}}
+        </h2>
+
+        <div class="description lead">
+
+            {{{markdown description}}}
+
+        </div>
+
+        {{#if tags.param.length}}
+
+        <section class="parameters">
+
+            <h3>Parameters</h3>
+
+            <div class="table-responsive">
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {{#each tags.param}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>
+                            {{#each types}}
+                            <code>{{.}}</code>
+                            {{/each}}
+                        </td>
+                        <td>{{{markdown description}}}</td>
+                        <td>
+                            {{#if isOptional}}
+                                <span class="tag tag-default">Optional</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+        {{/if}}
+
+        {{#if tags.property.length}}
+
+        <section class="property">
+
+            <h3>Properties</h3>
+
+            <div class="table-responsive">
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {{#each tags.property}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>
+                            {{#each types}}
+                            <code>{{.}}</code>
+                            {{/each}}
+                        </td>
+                        <td>{{{markdown description}}}</td>
+                        <td>
+                            {{#if isOptional}}
+                                <span class="tag tag-default">Optional</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+        {{/if}}
+
+        {{#if tags.example.length}}
+
+        <section class="examples">
+
+            <h3>Examples</h3>
+
+            {{#each tags.example}}
+
+                <pre><code class="hljs javascript">{{{highlightBlock .}}}</code></pre>
+
+            {{/each}}
+
+        </section>
+
+        {{/if}}
+
+        <section class="returns">
+
+            <h3>Returns</h3>
+
+            {{#if tags.return.length}}
+
+                {{#each tags.return}}
+
+                    <p>
+                        {{#each types}}
+                            <code>{{.}}</code>
+                        {{/each}}
+                    </p>
+
+                    {{{markdown description}}}
+
+                {{/each}}
+
+            {{else}}
+
+            <p><code>Void</code></p>
+
+            {{/if}}
+
+        </section>
+
+    </div>
+
+</div>
+
+<footer class="bs-footer">
+
+    <div class="container">
+
+        <p>Documentation generated with <a href="https://github.com/neogeek/doxdox">doxdox</a>.</p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
