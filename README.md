@@ -17,3 +17,7 @@ $ npm install doxdox doxdox-plugin-dash --save-dev
 ```bash
 $ doxdox 'src/**/*.js' --layout dash --output docs.zip
 ```
+
+## Screenshot
+
+![screenshot](screenshot.jpg)
