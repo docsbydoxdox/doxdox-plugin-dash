@@ -1,3 +1,6 @@
+/* eslint id-length: 0 */
+/* eslint no-invalid-this: 0 */
+
 const Handlebars = require('handlebars');
 
 const hljs = require('highlight.js');
@@ -9,6 +12,18 @@ const markdown = require('markdown-it')({
     },
     'html': true,
     'linkify': true
+});
+
+Handlebars.registerHelper('ifCond', function ifCond (a, b, options) {
+
+    if (a === b) {
+
+        return options.fn(this);
+
+    }
+
+    return options.inverse(this);
+
 });
 
 Handlebars.registerHelper('highlightBlock', block => {
