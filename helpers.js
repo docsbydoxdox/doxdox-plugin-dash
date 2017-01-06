@@ -1,6 +1,3 @@
-/* eslint id-length: 0 */
-/* eslint no-invalid-this: 0 */
-
 const Handlebars = require('handlebars');
 
 const hljs = require('highlight.js');

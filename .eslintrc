@@ -3,7 +3,9 @@
     "@neogeek/eslint-config-standards"
   ],
   "rules": {
+    "id-length": 0,
     "new-cap": 0,
+    "no-invalid-this": 0,
     "no-shadow": 0,
     "no-sync": 0
   }
