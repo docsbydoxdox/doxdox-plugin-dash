@@ -1,5 +1,7 @@
 # doxdox-plugin-dash
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/neogeek/doxdox-plugin-dash.svg)](https://greenkeeper.io/)
+
 > Dash export plugin for doxdox.
 
 [![Build Status](https://travis-ci.org/neogeek/doxdox-plugin-dash.svg?branch=master)](https://travis-ci.org/neogeek/doxdox-plugin-dash)
