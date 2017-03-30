@@ -16,7 +16,7 @@
     "temp": "0.8.3"
   },
   "devDependencies": {
-    "@neogeek/eslint-config-standards": "1.13.1",
+    "@neogeek/eslint-config-standards": "1.15.0",
     "eslint": "3.18.0"
   },
   "peerDependencies": {
