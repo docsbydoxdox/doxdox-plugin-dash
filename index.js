@@ -55,6 +55,11 @@ const plugin = data => new Promise((resolve, reject) => {
             );
 
             zip.addLocalFile(
+                path.join(__dirname, 'templates/resources/documentation.css'),
+                `${data.title}.docset/Contents/Resources/Documents/resources/`
+            );
+
+            zip.addLocalFile(
                 path.join(__dirname, 'templates/resources/github.min.css'),
                 `${data.title}.docset/Contents/Resources/Documents/resources/`
             );
