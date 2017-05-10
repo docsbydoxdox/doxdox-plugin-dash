@@ -11,7 +11,7 @@ const markdown = require('markdown-it')({
     'linkify': true
 });
 
-Handlebars.registerHelper('ifCond', function ifCond (a, b, options) {
+Handlebars.registerHelper('ifCond', (a, b, options) => {
 
     if (a === b) {
 
