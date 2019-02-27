@@ -8,16 +8,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "adm-zip": "0.4.7",
-    "handlebars": "4.0.11",
-    "highlight.js": "9.12.0",
-    "markdown-it": "8.4.0",
-    "sqlite3": "3.1.13",
-    "temp": "0.8.3"
+    "adm-zip": "0.4.13",
+    "handlebars": "4.1.0",
+    "highlight.js": "9.15.6",
+    "markdown-it": "8.4.2",
+    "sqlite3": "4.0.6",
+    "temp": "0.9.0"
   },
   "devDependencies": {
-    "@neogeek/eslint-config-standards": "^2.0.0",
-    "eslint": "^4.2.0"
+    "@neogeek/eslint-config-standards": "4.1.0",
+    "babel-eslint": "10.0.1",
+    "eslint": "5.14.1"
   },
   "peerDependencies": {
     "doxdox": "~2.0.3"
