@@ -18,93 +18,17 @@ const sqlite3 = require('sqlite3').verbose();
  * @public
  */
 
-const plugin = data => new Promise((resolve, reject) => {
+const plugin = data =>
+    new Promise((resolve, reject) => {
 
-    const zip = new admzip();
-    const tempdb = temp.openSync('temp.sqlite');
-    const db = new sqlite3.Database(tempdb.path);
+        const zip = new admzip();
+        const tempdb = temp.openSync('temp.sqlite');
+        const db = new sqlite3.Database(tempdb.path);
 
-    fs.readFile(path.join(__dirname, 'templates/method.hbs'), 'utf8', (err, contents) => {
-
-        if (err) {
-
-            return reject(err);
-
-        }
-
-        const methodTemplate = Handlebars.compile(contents);
-
-        fs.readFile(path.join(__dirname, 'templates/Info.plist.hbs'), 'utf8', (err, contents) => {
-
-            if (err) {
-
-                return reject(err);
-
-            }
-
-            const plistTemplate = Handlebars.compile(contents);
-
-            zip.addFile(
-                `${data.title}.docset/Contents/Info.plist`,
-                plistTemplate(data)
-            );
-
-            zip.addLocalFile(
-                path.join(__dirname, 'templates/resources/bootstrap.min.css'),
-                `${data.title}.docset/Contents/Resources/Documents/resources/`
-            );
-
-            zip.addLocalFile(
-                path.join(__dirname, 'templates/resources/documentation.css'),
-                `${data.title}.docset/Contents/Resources/Documents/resources/`
-            );
-
-            zip.addLocalFile(
-                path.join(__dirname, 'templates/resources/github.min.css'),
-                `${data.title}.docset/Contents/Resources/Documents/resources/`
-            );
-
-            db.serialize(() => {
-
-                db.run('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);');
-                db.run('CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);');
-
-                data.files.forEach(file => {
-
-                    file.methods.forEach(method => {
-
-                        zip.addFile(
-                            `${data.title}.docset/Contents/Resources/Documents/${method.uid}.html`,
-                            methodTemplate(method)
-                        );
-
-                        db.run('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ($name, $type, $path);', {
-                            '$name': method.name,
-                            '$path': `${method.uid}.html`,
-                            '$type': method.type.replace(/^[a-z]/, match => match.toUpperCase())
-                        });
-
-                        if (method.tags.property) {
-
-                            method.tags.property.forEach(property => {
-
-                                db.run('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ($name, $type, $path);', {
-                                    '$name': `${method.name}.${property.name}`,
-                                    '$path': `${method.uid}.html#//apple_ref/cpp/Property/${property.name}`,
-                                    '$type': 'Property'
-                                });
-
-                            });
-
-                        }
-
-                    });
-
-                });
-
-            });
-
-            db.close(err => {
+        fs.readFile(
+            path.join(__dirname, 'templates/method.hbs'),
+            'utf8',
+            (err, contents) => {
 
                 if (err) {
 
@@ -112,35 +36,156 @@ const plugin = data => new Promise((resolve, reject) => {
 
                 }
 
-                fs.readFile(tempdb.path, (err, contents) => {
+                const methodTemplate = Handlebars.compile(contents);
 
-                    if (err) {
+                fs.readFile(
+                    path.join(__dirname, 'templates/Info.plist.hbs'),
+                    'utf8',
+                    (err, contents) => {
 
-                        return reject(err);
+                        if (err) {
+
+                            return reject(err);
+
+                        }
+
+                        const plistTemplate = Handlebars.compile(contents);
+
+                        zip.addFile(
+                            `${data.title}.docset/Contents/Info.plist`,
+                            plistTemplate(data)
+                        );
+
+                        zip.addLocalFile(
+                            path.join(
+                                __dirname,
+                                'templates/resources/bootstrap.min.css'
+                            ),
+                            `${
+                                data.title
+                            }.docset/Contents/Resources/Documents/resources/`
+                        );
+
+                        zip.addLocalFile(
+                            path.join(
+                                __dirname,
+                                'templates/resources/documentation.css'
+                            ),
+                            `${
+                                data.title
+                            }.docset/Contents/Resources/Documents/resources/`
+                        );
+
+                        zip.addLocalFile(
+                            path.join(
+                                __dirname,
+                                'templates/resources/github.min.css'
+                            ),
+                            `${
+                                data.title
+                            }.docset/Contents/Resources/Documents/resources/`
+                        );
+
+                        db.serialize(() => {
+
+                            db.run('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);');
+                            db.run('CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);');
+
+                            data.files.forEach(file => {
+
+                                file.methods.forEach(method => {
+
+                                    zip.addFile(
+                                        `${
+                                            data.title
+                                        }.docset/Contents/Resources/Documents/${
+                                            method.uid
+                                        }.html`,
+                                        methodTemplate(method)
+                                    );
+
+                                    db.run(
+                                        'INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ($name, $type, $path);',
+                                        {
+                                            '$name': method.name,
+                                            '$path': `${method.uid}.html`,
+                                            '$type': method.type.replace(
+                                                /^[a-z]/u,
+                                                match => match.toUpperCase()
+                                            )
+                                        }
+                                    );
+
+                                    if (method.tags.property) {
+
+                                        method.tags.property.forEach(property => {
+
+                                            db.run(
+                                                'INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ($name, $type, $path);',
+                                                {
+                                                    '$name': `${
+                                                        method.name
+                                                    }.${property.name}`,
+                                                    '$path': `${
+                                                        method.uid
+                                                    }.html#//apple_ref/cpp/Property/${
+                                                        property.name
+                                                    }`,
+                                                    '$type': 'Property'
+                                                }
+                                            );
+
+                                        });
+
+                                    }
+
+                                });
+
+                            });
+
+                        });
+
+                        db.close(err => {
+
+                            if (err) {
+
+                                return reject(err);
+
+                            }
+
+                            fs.readFile(tempdb.path, (err, contents) => {
+
+                                if (err) {
+
+                                    return reject(err);
+
+                                }
+
+                                zip.addFile(
+                                    `${
+                                        data.title
+                                    }.docset/Contents/Resources/docSet.dsidx`,
+                                    contents
+                                );
+
+                                return resolve(zip.toBuffer());
+
+                            });
+
+                            return false;
+
+                        });
+
+                        return false;
 
                     }
-
-                    zip.addFile(
-                        `${data.title}.docset/Contents/Resources/docSet.dsidx`,
-                        contents
-                    );
-
-                    return resolve(zip.toBuffer());
-
-                });
+                );
 
                 return false;
 
-            });
-
-            return false;
-
-        });
-
-        return false;
+            }
+        );
 
     });
-
-});
 
 module.exports = plugin;

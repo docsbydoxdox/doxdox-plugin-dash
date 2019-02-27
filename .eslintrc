@@ -4,6 +4,7 @@
   ],
   "rules": {
     "id-length": 0,
+    "max-lines-per-function": 0,
     "new-cap": 0,
     "no-invalid-this": 0,
     "no-shadow": 0,
