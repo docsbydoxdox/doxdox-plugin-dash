@@ -1,4 +1,4 @@
-# [doxdox-plugin-dash](https://github.com/neogeek/doxdox-plugin-dash) *1.0.6*
+# [doxdox-plugin-dash](https://github.com/neogeek/doxdox-plugin-dash) *2.0.0*
 
 > Dash export plugin for doxdox.
 
