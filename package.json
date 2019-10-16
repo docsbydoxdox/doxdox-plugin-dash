@@ -11,7 +11,7 @@
     "adm-zip": "0.4.13",
     "handlebars": "4.1.0",
     "highlight.js": "9.15.6",
-    "markdown-it": "8.4.2",
+    "markdown-it": "10.0.0",
     "sqlite3": "4.0.6",
     "temp": "0.9.0"
   },
