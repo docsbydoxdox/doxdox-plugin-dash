@@ -13,7 +13,8 @@
     "highlight.js": "9.15.6",
     "markdown-it": "8.4.2",
     "sqlite3": "4.0.6",
-    "temp": "0.9.0"
+    "temp": "0.9.0",
+    "snyk": "^1.319.0"
   },
   "devDependencies": {
     "@neogeek/eslint-config-standards": "4.1.0",
@@ -27,7 +28,9 @@
     "test": "npm run lint",
     "test:docs": "doxdox index.js --layout markdown | diff DOCUMENTATION.md -",
     "lint": "eslint .",
-    "docs": "doxdox index.js --layout markdown --output DOCUMENTATION.md"
+    "docs": "doxdox index.js --layout markdown --output DOCUMENTATION.md",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "doxdox",
@@ -45,5 +48,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/neogeek/doxdox-plugin-dash.git"
-  }
+  },
+  "snyk": true
 }
